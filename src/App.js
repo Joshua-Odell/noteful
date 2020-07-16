@@ -1,26 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { Route, BrowserRouter, Link } from 'react-router-dom';
+import List from './Note/list';
+import FolderList from './Folder/folder-list'
+import "./App.css"
+import dummyStore from './dummy-store';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+
+    state ={
+        notes: [],
+        folders: []
+    }
+    
+    componentDidMount() {
+        setTimeout(() => this.setState(dummyStore), 600);
+    }
+
+
+    render() {
+        const {notes, folders} = this.state
+        return(
+            <main>
+                <header>
+                    <h1>
+                        <BrowserRouter>
+                            <Link to='/'>
+                                Noteful
+                            </Link>
+                        </BrowserRouter>
+                    </h1>
+                </header>
+                <div className="App">
+                <div>
+                <BrowserRouter>
+                {['/', '/folder/:folderId'].map(path => (
+                    <Route exact path='/'><FolderList folders={folders} notes={notes} /></Route> 
+                ))}
+                </BrowserRouter>
+                </div>
+          
+                <div>
+                <BrowserRouter>
+                    <Route exact path='/'><List folders={folders} notes={notes}/></Route> 
+                </BrowserRouter>
+                </div>
+            </div>
+            </main>
+            
+        )
+    }
+    
 }
-
-export default App;
