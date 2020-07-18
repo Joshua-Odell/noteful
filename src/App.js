@@ -31,18 +31,18 @@ export default class App extends Component {
                     </h1>
                 </header>
                 <div className="App">
-                <div>
-                <BrowserRouter>
-                {['/', '/folder/:folderId'].map(path => (
-                    <Route exact path='/'><FolderList folders={folders} notes={notes} /></Route> 
-                ))}
-                </BrowserRouter>
-                </div>
-          
-                <div>
-                <BrowserRouter>
-                    <Route exact path='/'><List folders={folders} notes={notes}/></Route> 
-                </BrowserRouter>
+                    <div className="item">
+                    <BrowserRouter>
+                    {['/', '/folder/:folderId'].map(path => (
+                        <Route path='/'><FolderList folders={folders} notes={notes} /></Route> 
+                    ))}
+                    </BrowserRouter>
+                    </div>
+            
+                    <div className="item">
+                    <BrowserRouter>
+                        <Route exact path='/'><List folders={folders} notes={notes}/></Route> 
+                    </BrowserRouter>
                 </div>
             </div>
             </main>
