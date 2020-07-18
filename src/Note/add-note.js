@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export default function AddFolder(props) {
+export default function AddNote(props) {
     const { tag, className, childrenm, ...otherProps } = props
     return React.createElement(
         props.tag,
