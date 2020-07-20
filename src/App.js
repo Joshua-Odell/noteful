@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter, Link } from 'react-router-dom';
 
-import ListNotes from './Folder/ListNotes'
+import ListNotes from './Note/ListNotes'
 import "./App.css"
 import dummyStore from './dummy-store';
 import NoteListNav from './Nav/NoteListNav';
 import NotePageNav from './Nav/NotePageNav';
 import ApiContext from './ApiContext';
-import ListFolders from './Note/ListFolders';
+import ListFolders from './Folder/ListFolders';
 
 export default class App extends Component {
 
     state ={
         notes: [],
-        folders: []
+        folders: [],
+        selectedFolder: 'all'
     }
     
     componentDidMount() {
@@ -44,6 +45,12 @@ export default class App extends Component {
         });
     };
 
+    settingSelectedFolder(folderId){
+        console.log(folderId);
+        this.setState({selectedFolder: folderId});
+        console.log(this.state.selectedFolder);
+    }
+
     renderNavRoutes() {
         return (
             <>
@@ -52,8 +59,9 @@ export default class App extends Component {
                         exact
                         key={path}
                         path={path}
-                        component={NoteListNav}
-                    />
+                    >
+                        <NoteListNav call={this.settingSelectedFolder()} />
+                    </Route>
                 ))}
                 <Route path="/note/:noteId" component={NotePageNav} />
                 <Route path="/add-folder" component={NotePageNav} />
@@ -66,30 +74,25 @@ export default class App extends Component {
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
-            deleteNote: this.handleDeleteNote
+            deleteNote: this.handleDeleteNote,
+            selectedFolder: this.state.selectedFolder
         };
+        console.log(value)
         return(
             <ApiContext.Provider value={value}>
-                <main>
-                    <nav>{this.renderNavRoutes()}</nav>
+                <main className="App">                    
                     <header>
                         <h1>
                             <Link to='/'>
                                 Noteful
                             </Link>
                         </h1>
+                        <nav>{this.renderNavRoutes()}</nav>
                     </header>
-                    <div className="App">                                        
-                        <div className="item">
-                            {['/', '/folder/:folderId'].map(path => (
-                                <Route exact key={path} path={path}><ListFolders/></Route>
-                            ))}
-                        </div>
-                        <div className="item">
-                            {['/', '/note/:noteId'].map(path => (
-                                <Route exact key={path} path={path}><ListNotes/></Route> 
-                            ))}
-                        </div>
+                    <div className="notes">              
+                        {['/', '/note/:noteId'].map(path => (
+                            <Route exact key={path} path={path}><ListNotes/></Route> 
+                        ))}
                     </div>
                 </main>
             </ApiContext.Provider>

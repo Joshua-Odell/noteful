@@ -9,6 +9,7 @@ export default class AddNote extends Component {
     this.state = {
       newNote: '',
       folderSelection: '',
+      content: '',
       click: false,
       touched: false,
       folderTouched: false
@@ -28,7 +29,11 @@ export default class AddNote extends Component {
     this.setState({folderSelection: folderChoice, folderTouched: true});
   }
 
-  validateNewNote() {  // I am getting undefined in the components section for this validation
+  updateContent(message){
+    this.setState({content: message});
+  }
+
+  validateNewNote() { 
     const newNoteTrim = this.state.newNote.trim()
     console.log(newNoteTrim)
     if(newNoteTrim < 1){
@@ -40,6 +45,11 @@ export default class AddNote extends Component {
     if(this.state.folderSelection === 'none'){
       return "Please select a valid folder"
     }
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    // I need to figure out how to update folders and note list. Callback? how does this work with context.
   }
 
   render() {
@@ -60,12 +70,14 @@ export default class AddNote extends Component {
             <select id="note-folder" name="note-folder" onChange={e => this.folderSelector(e.target.value)}>
               <option value='none'>--Pick A Folder--</option>
               {folders.map(folder =>
-                <option value={folder.name}>{folder.name}</option>
+                <option value={folder.id}>{folder.name}</option>
               )}
             </select>
             {this.state.folderTouched && (
               <ValidationError message={folderSelectionError} />
-            )}            
+            )}
+            <label htmlFor='content'>What would you like your note to say?</label>
+            <input type='text' name='content' id='content'onChange={e => this.updateContent(e.target.value)}/>            
             <button type='submit' disabled={this.validateNewNote() || this.validateFolder()}>Save</button>
           </div>
         </form>

@@ -1,0 +1,10 @@
+.Note-Title {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+.Add-Note {
+    display: flex;
+    height: 30px;
+}
