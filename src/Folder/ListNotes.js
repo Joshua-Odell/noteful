@@ -5,13 +5,18 @@ import ApiContext from '../ApiContext';
 import { getNotesForFolder } from '../notes-helpers';
 import Note from '../Note/note';
 
-export default class NoteListMain extends React.Component {
+export default class ListNotes extends React.Component {
     static defaultProps = {
+        click: false,
       match: {
         params: {}
       }
     }
     static contextType = ApiContext
+
+    handleDeleteNote = noteId => {
+        this.props.history.push(`/`)
+      }
 
     render() {
         const { folderId } = this.props.match.params
@@ -31,7 +36,7 @@ export default class NoteListMain extends React.Component {
                     </li>
                     )}
                 </ul>
-                <AddNote tag={Link} to='/add-folder' type='button' >Add Note</AddNote>
+                <AddNote tag={Link} to='/add-note' type='button' > Add Note </AddNote>
                 
             </div>
         )

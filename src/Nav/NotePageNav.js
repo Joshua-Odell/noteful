@@ -2,6 +2,7 @@ import React from 'react'
 import ApiContext from '../ApiContext'
 import { findNote, findFolder } from '../notes-helpers'
 import AddFolder from '../Folder/add-folder';
+import Base from './Base'
 
 export default class NotePageNav extends React.Component {
   static defaultProps = {
@@ -21,7 +22,7 @@ export default class NotePageNav extends React.Component {
     const folder = findFolder(folders, note.folderId)
     return (
       <div className='NotePageNav'>
-        <AddFolder
+        <Base
           tag='button'
           role='link'
           onClick={() => this.props.history.goBack()}
@@ -29,7 +30,7 @@ export default class NotePageNav extends React.Component {
         >
           <br />
           Back
-        </AddFolder>
+        </Base>
         {folder && (
           <h3 className='NotePageNav__folder-name'>
             {folder.name}

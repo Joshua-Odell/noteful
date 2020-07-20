@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter, Link } from 'react-router-dom';
-import List from './Note/list';
-import FolderList from './Folder/folder-list'
+
+import ListNotes from './Folder/ListNotes'
 import "./App.css"
 import dummyStore from './dummy-store';
 import NoteListNav from './Nav/NoteListNav';
 import NotePageNav from './Nav/NotePageNav';
 import ApiContext from './ApiContext';
+import ListFolders from './Note/ListFolders';
 
 export default class App extends Component {
 
@@ -17,6 +18,24 @@ export default class App extends Component {
     
     componentDidMount() {
         setTimeout(() => this.setState(dummyStore), 600);
+        // Promise.all([
+        //     fetch(`${config.API_ENDPOINT}/notes`),
+        //     fetch(`${config.API_ENDPOINT}/folders`)
+        // ])
+        //     .then(([notesRes, foldersRes]) => {
+        //         if (!notesRes.ok)
+        //             return notesRes.json().then(e => Promise.reject(e));
+        //         if (!foldersRes.ok)
+        //             return foldersRes.json().then(e => Promise.reject(e));
+
+        //         return Promise.all([notesRes.json(), foldersRes.json()]);
+        //     })
+        //     .then(([notes, folders]) => {
+        //         this.setState({notes, folders});
+        //     })
+        //     .catch(error => {
+        //         console.error({error});
+        //     });
     }
 
     handleDeleteItem = Id => {
@@ -55,22 +74,21 @@ export default class App extends Component {
                     <nav>{this.renderNavRoutes()}</nav>
                     <header>
                         <h1>
-                            <BrowserRouter>
-                                <Link to='/'>
-                                    Noteful
-                                </Link>
-                            </BrowserRouter>
+                            <Link to='/'>
+                                Noteful
+                            </Link>
                         </h1>
                     </header>
-                    <div className="App">
+                    <div className="App">                                        
                         <div className="item">
                             {['/', '/folder/:folderId'].map(path => (
-                                <Route exact key={path} path={path}><FolderList/></Route> 
+                                <Route exact key={path} path={path}><ListFolders/></Route>
                             ))}
                         </div>
-                
                         <div className="item">
-                                <Route exact path='/note/:noteId'><List/></Route>
+                            {['/', '/note/:noteId'].map(path => (
+                                <Route exact key={path} path={path}><ListNotes/></Route> 
+                            ))}
                         </div>
                     </div>
                 </main>

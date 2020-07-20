@@ -1,8 +1,8 @@
-import React from 'react'
-import { NavLink, Link } from 'react-router-dom'
-import ApiContext from '../ApiContext'
-import { countNotesForFolder } from '../notes-helpers'
-import AddNote from '../Note/add-note'
+import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import ApiContext from '../ApiContext';
+import { countNotesForFolder } from '../notes-helpers';
+import Base from './Base';
 
 
 export default class NoteListNav extends React.Component {
@@ -28,15 +28,15 @@ export default class NoteListNav extends React.Component {
           )}
         </ul>
         <div className='NoteListNav__button-wrapper'>
-          <AddNote
+          <Base
             tag={Link}
             to='/add-folder'
             type='button'
             className='NoteListNav__add-folder-button'
           >
             <br />
-            Folder
-          </AddNote>
+            Add Folder Button Goes HERE
+          </Base>
         </div>
       </div>
     )
