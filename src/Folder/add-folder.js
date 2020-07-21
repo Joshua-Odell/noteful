@@ -9,19 +9,19 @@ export default class AddFolder extends Component { // folder id is 32 charecters
   constructor(props){
     super(props);
     this.state = {
-      newFolder: '',
+      name: '',
       touched: false
     }
   }
   static contextType = ApiContext
   
   updateFolderName(newFolder){
-    this.setState({newFolder: newFolder, touched: true});
+    this.setState({name: newFolder, touched: true});
   }
 
   validateFolderName() {
     const { folders=[] } = this.context
-    const newFolderName = this.state.newFolder.trim()
+    const newFolderName = this.state.name.trim()
     console.log(newFolderName)
     if(newFolderName.length < 1 || newFolderName.match(/[0-9]/)){
       return "Enter a valid Folder Name"
@@ -30,22 +30,26 @@ export default class AddFolder extends Component { // folder id is 32 charecters
     }
   }
 
-  handleSubmit(event) {
-    const newFolderId = Math.floor(Math.random() * Math.floor(999999999999))
+  handleSubmit = (event) => {
     event.preventDefault();
-    fetch(`${config.API_ENDPOINT}/folders/${newFolderId}`, {
+    fetch(`${config.API_ENDPOINT}/folders`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify({name: this.state.name })
     })
       .then(res => {
-        if (!res.ok)
+        console.log({res})
+        if (!res.ok) {
           return res.json().then(e => Promise.reject(e))
-        else console.log(res.json())
+        } else {
+          // console.log(res.json())
+          return res.json()
+        }
+      }).then(body => {
+        this.context.addFolder(body)
       })
-      
       .catch(error => {
         console.error({ error })
       })
@@ -54,7 +58,7 @@ export default class AddFolder extends Component { // folder id is 32 charecters
 
   render() {
       return(
-        <form className='Form-Class'>
+        <form className='Form-Class' onSubmit={this.handleSubmit}>
           <h2> Add a Folder</h2>
           <div>
             <label htmlFor="name">Name:</label>

@@ -12,6 +12,7 @@ import AddFolder from './Folder/add-folder';
 import AddNote from './Note/add-note';
 import NotePageMain from './Note/NotePageMain';
 import NoteListMain from './Note/NoteListMain';
+import config from './config'
 
 export default class App extends Component {
     
@@ -22,25 +23,25 @@ export default class App extends Component {
     }
     
     componentDidMount() {
-        setTimeout(() => this.setState(dummyStore), 0);
-        // Promise.all([
-        //     fetch(`${config.API_ENDPOINT}/notes`),
-        //     fetch(`${config.API_ENDPOINT}/folders`)
-        // ])
-        //     .then(([notesRes, foldersRes]) => {
-        //         if (!notesRes.ok)
-        //             return notesRes.json().then(e => Promise.reject(e));
-        //         if (!foldersRes.ok)
-        //             return foldersRes.json().then(e => Promise.reject(e));
+        
+        Promise.all([
+            fetch(`${config.API_ENDPOINT}/notes`),
+            fetch(`${config.API_ENDPOINT}/folders`)
+        ])
+            .then(([notesRes, foldersRes]) => {
+                if (!notesRes.ok)
+                    return notesRes.json().then(e => Promise.reject(e));
+                if (!foldersRes.ok)
+                    return foldersRes.json().then(e => Promise.reject(e));
 
-        //         return Promise.all([notesRes.json(), foldersRes.json()]);
-        //     })
-        //     .then(([notes, folders]) => {
-        //         this.setState({notes, folders});
-        //     })
-        //     .catch(error => {
-        //         console.error({error});
-        //     });
+                return Promise.all([notesRes.json(), foldersRes.json()]);
+            })
+            .then(([notes, folders]) => {
+                this.setState({notes, folders});
+            })
+            .catch(error => {
+                console.error({error});
+            });
     }
 
     handleDeleteItem = Id => {
@@ -63,7 +64,7 @@ export default class App extends Component {
             deleteNote: this.handleDeleteNote,
             selectedFolder: this.state.selectedFolder
         };
-        console.log(value)
+        //console.log(value)
         return( //call={this.settingSelectedFolder()} to go inside NoteListNav. NW maximumum update depth error
             <ApiContext.Provider value={value}>
                 <main className="App">                    
