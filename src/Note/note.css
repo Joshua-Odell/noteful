@@ -1,0 +1,28 @@
+.Card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 30px
+}
+
+.Card-Title {
+    color: black;
+}
+
+.Note-Cards {
+    background-color: lightgray;
+    padding: 1px;
+    list-style-type: none;
+}
+
+.Card-Delete {
+    height: 30px;
+    align-items: center;
+}
+
+.Note-Title {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

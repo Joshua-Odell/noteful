@@ -1,10 +1,29 @@
-.App {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+body {
+    background-color: lightblue;
+}
+
+header {
+    height: 18vh;
 }
 
 h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.add-folder-button {
+    display: flex;
+    justify-content: center;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    list-style-type: none;
+}
+
+.notes {
     display: flex;
     justify-content: center;
 }

@@ -4,34 +4,38 @@ import AddNote from '../Note/add-note';
 import ApiContext from '../ApiContext';
 import { getNotesForFolder } from '../notes-helpers';
 import Note from '../Note/note';
+import AddFolder from './add-folder';
 
-export default class NoteListMain extends React.Component {
+export default class ListFolders extends React.Component {
     static defaultProps = {
+        click: false,
       match: {
         params: {}
       }
     }
     static contextType = ApiContext
 
+    handleDeleteNote = folderId => {
+        this.props.history.push(`/`)
+      }
+
+
     render() {
         const { folderId } = this.props.match.params
-        const { notes=[] } = this.context
-        const notesForFolder = getNotesForFolder(notes, folderId)
+        const { folders=[] } = this.context
+        
+        
 
         return(
             <div>
                 <ul>
-                    {notesForFolder.map(note =>
-                    <li key={note.id}>
-                        <Note
-                            id={note.id}
-                            name={note.name}
-                            modified={note.modified}
-                        />
+                    {folders.map(folder =>
+                    <li key={folder.id} onClick={e => this.props.settingSelectedFolder(folder.id)}>
+                        {folder.name}
                     </li>
                     )}
                 </ul>
-                <AddNote tag={Link} to='/add-folder' type='button' >Add Note</AddNote>
+                
                 
             </div>
         )

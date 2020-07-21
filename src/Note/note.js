@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import ApiContext from '../ApiContext'
 import config from '../config'
+import './note.css'
 
 
 export default class Note extends React.Component {
@@ -39,21 +40,20 @@ export default class Note extends React.Component {
   render() {
     const { name, id, modified } = this.props
     return (
-      <div className='Note'>
-        <h2 className='Note__title'>
+      <div className='Card'>
+        <p className='Card-Title Item'>
           <Link to={`/note/${id}`}>
             {name}
           </Link>
-        </h2>
+        </p>
         <button
-          className='Note__delete'
+          className='Card-Delete Item'
           type='button'
           onClick={this.handleClickDelete}
         >
           {' '}
           remove
-        </button>
-        
+        </button>        
       </div>
     )
   }
