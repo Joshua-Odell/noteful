@@ -10,6 +10,8 @@ import ApiContext from './ApiContext';
 import ListFolders from './Folder/ListFolders';
 import AddFolder from './Folder/add-folder';
 import AddNote from './Note/add-note';
+import NotePageMain from './Note/NotePageMain';
+import NoteListMain from './Note/NoteListMain';
 
 export default class App extends Component {
     
@@ -82,10 +84,16 @@ export default class App extends Component {
                             <Route path="/add-note" component={AddNote} />
                         </nav>
                     </header>
-                    <div className="notes">              
-                        {['/', '/note/:noteId'].map(path => (
-                            <Route exact key={path} path={path}><ListNotes/></Route> 
-                        ))}
+                    <div className="notes">
+                        {['/', '/folder/:folderId'].map(path => (
+                        <Route
+                            exact
+                            key={path}
+                            path={path}
+                            component={ListNotes}
+                        />
+                        ))}      
+                        <Route path={"/note/:noteId"}><NotePageMain/></Route> 
                     </div>
                 </main>
             </ApiContext.Provider>

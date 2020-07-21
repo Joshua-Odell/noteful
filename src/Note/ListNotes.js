@@ -9,7 +9,6 @@ import Base from '../Nav/Base'
 
 export default class ListNotes extends React.Component {
     static defaultProps = {
-        click: false,
       match: {
         params: {}
       }
@@ -27,7 +26,6 @@ export default class ListNotes extends React.Component {
         const notesForFolder = getNotesForFolder(notes, folderId)
 
         console.log(selectedFolder, "list note render")
-        if(selectedFolder === 'all'){
             return(
                 <div>
                     <div className='Note-Title'>
@@ -49,31 +47,6 @@ export default class ListNotes extends React.Component {
                     </ul>              
                 </div>
             )
-        } else {
-            return(
-                <div>
-                    <div className='Note-Title'>
-                        <h3>Notes</h3>
-                        <AddNote tag={Link} to='/add-note' type='button' className='Add-Note'> Add Note </AddNote>
-                    </div>                
-                    <ul>
-                        {notesForFolder.map(note => {
-                            if(selectedFolder === note.folderId){
-                                return(
-                                    <li className="Note-Cards" key={note.id}>
-                                    <Note
-                                        id={note.id}
-                                        name={note.name}
-                                        modified={note.modified}
-                                    />
-                                    </li>
-                                ) 
-                            }                        
-                        })}
-                    </ul>                
-                </div>
-            )
-        }
-    }
+        } 
     
 } 

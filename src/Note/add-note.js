@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ValidationError from '../ValidationError/ValidationError'
 import ApiContext from '../ApiContext';
 import config from '../config';
+import PropTypes from 'prop-types';
 
 
 export default class AddNote extends Component {
@@ -101,3 +102,10 @@ export default class AddNote extends Component {
   }
 }
 
+AddNote.propTypes = {
+  newNote: PropTypes.string,
+  folderSelection: PropTypes.string,
+  content: PropTypes.string,
+  touched: PropTypes.bool,
+  folderTouched: PropTypes.bool,
+};
