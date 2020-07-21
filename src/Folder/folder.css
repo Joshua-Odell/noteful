@@ -8,3 +8,8 @@
     display: flex;
     height: 30px;
 }
+
+.Form-Class {
+    display: flex;
+    justify-content: center;
+}

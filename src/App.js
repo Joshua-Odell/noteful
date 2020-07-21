@@ -8,9 +8,11 @@ import NoteListNav from './Nav/NoteListNav';
 import NotePageNav from './Nav/NotePageNav';
 import ApiContext from './ApiContext';
 import ListFolders from './Folder/ListFolders';
+import AddFolder from './Folder/add-folder';
+import AddNote from './Note/add-note';
 
 export default class App extends Component {
-
+    
     state ={
         notes: [],
         folders: [],
@@ -51,25 +53,7 @@ export default class App extends Component {
         console.log(this.state.selectedFolder);
     }
 
-    renderNavRoutes() {
-        return (
-            <>
-                {['/', '/folder/:folderId'].map(path => (
-                    <Route
-                        exact
-                        key={path}
-                        path={path}
-                    >
-                        <NoteListNav call={this.settingSelectedFolder()} />
-                    </Route>
-                ))}
-                <Route path="/note/:noteId" component={NotePageNav} />
-                <Route path="/add-folder" component={NotePageNav} />
-                <Route path="/add-note" component={NotePageNav} />
-            </>
-        );
-    }
-
+    
     render() {
         const value = {
             notes: this.state.notes,
@@ -78,7 +62,7 @@ export default class App extends Component {
             selectedFolder: this.state.selectedFolder
         };
         console.log(value)
-        return(
+        return( //call={this.settingSelectedFolder()} to go inside NoteListNav. NW maximumum update depth error
             <ApiContext.Provider value={value}>
                 <main className="App">                    
                     <header>
@@ -87,7 +71,16 @@ export default class App extends Component {
                                 Noteful
                             </Link>
                         </h1>
-                        <nav>{this.renderNavRoutes()}</nav>
+                        <nav>
+                            {['/', '/folder/:folderId'].map(path => (
+                                <Route exact key={path} path={path}>
+                                    <NoteListNav /> 
+                                </Route>
+                            ))}
+                            <Route path="/note/:noteId" component={NotePageNav} />
+                            <Route path="/add-folder" component={AddFolder} />
+                            <Route path="/add-note" component={AddNote} />
+                        </nav>
                     </header>
                     <div className="notes">              
                         {['/', '/note/:noteId'].map(path => (

@@ -36,6 +36,9 @@ export default class NotePageNav extends React.Component {
             {folder.name}
           </h3>
         )}
+        <div>
+          {note.content}
+        </div>
       </div>
     )
   }

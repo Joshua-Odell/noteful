@@ -20,3 +20,9 @@
     height: 30px;
     align-items: center;
 }
+
+.Note-Title {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

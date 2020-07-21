@@ -7,7 +7,17 @@ import AddFolder from '../Folder/add-folder';
 
 
 export default class NoteListNav extends React.Component {
+  state ={
+    selectedFolder: 'all'
+  }
+
   static contextType = ApiContext;
+  
+  settingSelectedFolder(folderId){
+    console.log(folderId);
+    this.setState({selectedFolder: folderId});
+    console.log(this.state.selectedFolder);
+}
 
   render() {
     const { folders=[], notes=[] } = this.context
@@ -15,7 +25,7 @@ export default class NoteListNav extends React.Component {
       <div>
         <ul className='Container'>
           {folders.map(folder =>
-            <li className='item' key={folder.id}>
+            <li className='item' key={folder.id} onClick={e => this.settingSelectedFolder(folder.id)}>
               <NavLink
                 to={`/folder/${folder.id}`}
               >
@@ -28,7 +38,7 @@ export default class NoteListNav extends React.Component {
           )}
         </ul>
         <div className="add-folder-button">
-          <AddFolder/>
+          <Base tag={Link} to='/add-folder' type='button'> Add a Folder </Base>
         </div>
       </div>
     )

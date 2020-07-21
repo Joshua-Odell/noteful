@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ValidationError from '../ValidationError/ValidationError'
 import ApiContext from '../ApiContext';
+import config from '../config';
 
 
 export default class AddNote extends Component {
@@ -10,7 +11,6 @@ export default class AddNote extends Component {
       newNote: '',
       folderSelection: '',
       content: '',
-      click: false,
       touched: false,
       folderTouched: false
     }
@@ -35,7 +35,6 @@ export default class AddNote extends Component {
 
   validateNewNote() { 
     const newNoteTrim = this.state.newNote.trim()
-    console.log(newNoteTrim)
     if(newNoteTrim < 1){
       return( "Note must be filled out" )
     }
@@ -48,7 +47,24 @@ export default class AddNote extends Component {
   }
 
   handleSubmit(event) {
+    const newNoteId = Math.floor(Math.random() * Math.floor(999999999999))
     event.preventDefault();
+    fetch(`${config.API_ENDPOINT}/notes/${newNoteId}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(this.state)
+    })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(e => Promise.reject(e))
+        return res.json()
+      })
+      
+      .catch(error => {
+        console.error({ error })
+      })
     // I need to figure out how to update folders and note list. Callback? how does this work with context.
   }
 
@@ -56,7 +72,7 @@ export default class AddNote extends Component {
     const { folders=[]} = this.context;
     const newNoteError = this.validateNewNote();
     const folderSelectionError = this.validateFolder();
-    if(this.state.click){
+    
       return(
         <form>
           <h2> Add a Note</h2>
@@ -81,12 +97,7 @@ export default class AddNote extends Component {
             <button type='submit' disabled={this.validateNewNote() || this.validateFolder()}>Save</button>
           </div>
         </form>
-      );
-    } else {
-      return(
-        <button type='button' onClick={e => this.clickHandler()}>Add Note</button>
-      );
-    }
+      ); 
   }
 }
 

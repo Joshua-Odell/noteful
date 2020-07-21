@@ -5,6 +5,7 @@ import ApiContext from '../ApiContext';
 import { getNotesForFolder } from '../notes-helpers';
 import Note from './note';
 import './note.css';
+import Base from '../Nav/Base'
 
 export default class ListNotes extends React.Component {
     static defaultProps = {
@@ -31,7 +32,9 @@ export default class ListNotes extends React.Component {
                 <div>
                     <div className='Note-Title'>
                         <h3>Notes</h3>
-                        <AddNote tag={Link} to='/add-note' type='button' className='Add-Note'> Add Note </AddNote>
+                        <div className='Add-Note-Button'>
+                            <Base tag={Link} to='/add-note' type='button' className='Add-Note'> Add Note </Base>
+                        </div>
                     </div>                
                     <ul>
                         {notesForFolder.map(note =>
@@ -43,7 +46,7 @@ export default class ListNotes extends React.Component {
                             />
                         </li>
                         )}
-                    </ul>                
+                    </ul>              
                 </div>
             )
         } else {
