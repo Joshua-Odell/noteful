@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ApiContext from '../ApiContext';
-import ValidationError from '../ValidationError/ValidationError';
+import ValidationError from '../Errors/ValidationError';
 import config from '../config';
 import PropTypes from 'prop-types';
+import FormError from '../Errors/FormError'
 
 
 export default class AddFolder extends Component { // folder id is 32 charecters long
@@ -53,20 +54,21 @@ export default class AddFolder extends Component { // folder id is 32 charecters
       .catch(error => {
         console.error({ error })
       })
-    // I need to figure out how to update folders and note list. Callback? how does this work with context.
   }
 
   render() {
       return(
-        <form className='Form-Class' onSubmit={this.handleSubmit}>
-          <h2> Add a Folder</h2>
-          <div>
-            <label htmlFor="name">Name:</label>
-            <input type="text" name="name" id="name" onChange={e => this.updateFolderName(e.target.value)}/>
-            {this.state.touched && ( <ValidationError message={this.validateFolderName} />)}
-            <button type='submit' disabled={this.validateFolderName()}>Save</button>
-          </div>
-        </form>
+        <FormError>
+          <form className='Form-Class' onSubmit={this.handleSubmit}>
+            <h2> Add a Folder</h2>
+            <div>
+              <label htmlFor="name">Name:</label>
+              <input type="text" name="name" id="name" onChange={e => this.updateFolderName(e.target.value)}/>
+              {this.state.touched && ( <ValidationError message={this.validateFolderName} />)}
+              <button type='submit' disabled={this.validateFolderName()}>Save</button>
+            </div>
+          </form>
+        </FormError>        
       ); 
   }
 }

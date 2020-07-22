@@ -12,7 +12,8 @@ import AddFolder from './Folder/add-folder';
 import AddNote from './Note/add-note';
 import NotePageMain from './Note/NotePageMain';
 import NoteListMain from './Note/NoteListMain';
-import config from './config'
+import config from './config';
+import NoteError from './Errors/NoteError';
 
 export default class App extends Component {
     
@@ -85,17 +86,19 @@ export default class App extends Component {
                             <Route path="/add-note" component={AddNote} />
                         </nav>
                     </header>
-                    <div className="notes">
-                        {['/', '/folder/:folderId'].map(path => (
-                        <Route
-                            exact
-                            key={path}
-                            path={path}
-                            component={ListNotes}
-                        />
-                        ))}      
-                        <Route path={"/note/:noteId"}><NotePageMain/></Route> 
-                    </div>
+                    <NoteError>
+                        <div className="notes">
+                            {['/', '/folder/:folderId'].map(path => (
+                            <Route
+                                exact
+                                key={path}
+                                path={path}
+                                component={ListNotes}
+                            />
+                            ))}      
+                            <Route path={"/note/:noteId"}><NotePageMain/></Route> 
+                        </div>
+                    </NoteError>                    
                 </main>
             </ApiContext.Provider>
             

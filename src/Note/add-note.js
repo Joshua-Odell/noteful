@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import ValidationError from '../ValidationError/ValidationError'
+import ValidationError from '../Errors/ValidationError'
 import ApiContext from '../ApiContext';
 import config from '../config';
 import PropTypes from 'prop-types';
+import FormError from '../Errors/FormError'
 
 
 export default class AddNote extends Component {
   constructor(props){
     super(props);
     this.state = {
-      newNote: '',
-      folderSelection: '',
+      name: '',
+      folderId: '',
       content: '',
       touched: false,
       folderTouched: false
@@ -22,12 +23,12 @@ export default class AddNote extends Component {
     this.setState({click: true})
   }
 
-  updateNoteName(newNote){
-    this.setState({newNote: newNote, touched: true});
+  updateNoteName(name){
+    this.setState({name: name, touched: true});
   }
 
   folderSelector(folderChoice){
-    this.setState({folderSelection: folderChoice, folderTouched: true});
+    this.setState({folderId: folderChoice, folderTouched: true});
   }
 
   updateContent(message){
@@ -35,38 +36,41 @@ export default class AddNote extends Component {
   }
 
   validateNewNote() { 
-    const newNoteTrim = this.state.newNote.trim()
+    const newNoteTrim = this.state.name.trim()
     if(newNoteTrim < 1){
       return( "Note must be filled out" )
     }
   }
 
   validateFolder() {
-    if(this.state.folderSelection === 'none'){
+    if(this.state.folderId === 'none'){
       return "Please select a valid folder"
     }
   }
 
-  handleSubmit(event) {
-    const newNoteId = Math.floor(Math.random() * Math.floor(999999999999))
+  handleSubmit = (event) => {
     event.preventDefault();
-    fetch(`${config.API_ENDPOINT}/notes/${newNoteId}`, {
+    fetch(`${config.API_ENDPOINT}/notes`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify({name: this.state.name, folderId: this.state.folderId, content: this.state.content })
     })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
+    .then(res => {
+      console.log({res})
+      if (!res.ok) {
+        return res.json().then(e => Promise.reject(e))
+      } else {
+        // console.log(res.json())
         return res.json()
-      })
-      
-      .catch(error => {
-        console.error({ error })
-      })
-    // I need to figure out how to update folders and note list. Callback? how does this work with context.
+      }
+    }).then(body => {
+      this.context.addFolder(body)
+    })
+    .catch(error => {
+      console.error({ error })
+    })
   }
 
   render() {
@@ -75,36 +79,39 @@ export default class AddNote extends Component {
     const folderSelectionError = this.validateFolder();
     
       return(
-        <form>
-          <h2> Add a Note</h2>
-          <div>
-            <label htmlFor="name">Name:</label>
-            <input type="text" name="name" id="name" onChange={e => this.updateNoteName(e.target.value)} />
-            {this.state.touched && (
-              <ValidationError message={newNoteError} />
-            )}
-            <label htmlFor="note-folder">Folder:</label>
-            <select id="note-folder" name="note-folder" onChange={e => this.folderSelector(e.target.value)}>
-              <option value='none'>--Pick A Folder--</option>
-              {folders.map(folder =>
-                <option value={folder.id}>{folder.name}</option>
+        <FormError>
+          <form onSubmit={this.handleSubmit}>
+            <h2> Add a Note</h2>
+            <div>
+              <label htmlFor="name">Name:</label>
+              <input type="text" name="name" id="name" onChange={e => this.updateNoteName(e.target.value)} />
+              {this.state.touched && (
+                <ValidationError message={newNoteError} />
               )}
-            </select>
-            {this.state.folderTouched && (
-              <ValidationError message={folderSelectionError} />
-            )}
-            <label htmlFor='content'>What would you like your note to say?</label>
-            <input type='text' name='content' id='content'onChange={e => this.updateContent(e.target.value)}/>            
-            <button type='submit' disabled={this.validateNewNote() || this.validateFolder()}>Save</button>
-          </div>
-        </form>
+              <label htmlFor="note-folder">Folder:</label>
+              <select id="note-folder" name="note-folder" onChange={e => this.folderSelector(e.target.value)}>
+                <option value='none'>--Pick A Folder--</option>
+                {folders.map(folder =>
+                  <option value={folder.id}>{folder.name}</option>
+                )}
+              </select>
+              {this.state.folderTouched && (
+                <ValidationError message={folderSelectionError} />
+              )}
+              <label htmlFor='content'>What would you like your note to say?</label>
+              <input type='text' name='content' id='content'onChange={e => this.updateContent(e.target.value)}/>            
+              <button type='submit' disabled={this.validateNewNote() || this.validateFolder()}>Save</button>
+            </div>
+          </form>
+        </FormError>
+        
       ); 
   }
 }
 
 AddNote.propTypes = {
-  newNote: PropTypes.string,
-  folderSelection: PropTypes.string,
+  name: PropTypes.string,
+  folderId: PropTypes.string,
   content: PropTypes.string,
   touched: PropTypes.bool,
   folderTouched: PropTypes.bool,
