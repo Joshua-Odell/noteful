@@ -17,6 +17,8 @@ import NoteError from './Errors/NoteError';
 
 export default class App extends Component {
     
+    //All buttons are functioning but the changes are not being displayed promptly 
+
     state ={
         notes: [],
         folders: [],
