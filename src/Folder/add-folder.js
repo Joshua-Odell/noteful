@@ -3,10 +3,11 @@ import ApiContext from '../ApiContext';
 import ValidationError from '../Errors/ValidationError';
 import config from '../config';
 import PropTypes from 'prop-types';
-import FormError from '../Errors/FormError'
+import FormError from '../Errors/FormError';
+import Base from '../Nav/Base';
 
 
-export default class AddFolder extends Component { // folder id is 32 charecters long
+export default class AddFolder extends Component { 
   constructor(props){
     super(props);
     this.state = {
@@ -14,6 +15,16 @@ export default class AddFolder extends Component { // folder id is 32 charecters
       touched: false
     }
   }
+
+  static defaultProps = {
+    history: {
+      goBack: () => { }
+    },
+    match: {
+      params: {}
+    }
+  }
+
   static contextType = ApiContext
   
   updateFolderName(newFolder){
@@ -59,15 +70,27 @@ export default class AddFolder extends Component { // folder id is 32 charecters
   render() {
       return(
         <FormError>
-          <form className='Form-Class' onSubmit={this.handleSubmit}>
-            <h2> Add a Folder</h2>
-            <div>
-              <label htmlFor="name">Name:</label>
-              <input type="text" name="name" id="name" onChange={e => this.updateFolderName(e.target.value)}/>
-              {this.state.touched && ( <ValidationError message={this.validateFolderName} />)}
-              <button type='submit' disabled={this.validateFolderName()}>Save</button>
-            </div>
-          </form>
+          <div>
+            <form className='Form-Class' onSubmit={this.handleSubmit}>
+              <h2> Add a Folder</h2>
+              <div>
+                <label htmlFor="name">Name:</label>
+                <input type="text" name="name" id="name" onChange={e => this.updateFolderName(e.target.value)}/>
+                {this.state.touched && ( <ValidationError message={this.validateFolderName} />)}
+                <button type='submit' disabled={this.validateFolderName()}>Save</button>
+              </div>
+            </form>
+            <Base
+              tag='button'
+              role='link'
+              onClick={() => this.props.history.goBack()}
+              className='NotePageNav__back-button'
+            >
+              <br />
+              Back
+            </Base>
+          </div>
+          
         </FormError>        
       ); 
   }

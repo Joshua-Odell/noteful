@@ -29,7 +29,7 @@ export default class ListNotes extends React.Component {
             return(
                 <div>
                     <div className='Note-Title'>
-                        <h3>Notes</h3>
+                        <h2>Notes</h2>
                         <div className='Add-Note-Button'>
                             <Base tag={Link} to='/add-note' type='button' className='Add-Note'> Add Note </Base>
                         </div>

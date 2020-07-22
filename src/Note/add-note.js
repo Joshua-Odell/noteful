@@ -3,7 +3,8 @@ import ValidationError from '../Errors/ValidationError'
 import ApiContext from '../ApiContext';
 import config from '../config';
 import PropTypes from 'prop-types';
-import FormError from '../Errors/FormError'
+import FormError from '../Errors/FormError';
+import Base from '../Nav/Base'
 
 
 export default class AddNote extends Component {
@@ -17,6 +18,16 @@ export default class AddNote extends Component {
       folderTouched: false
     }
   }
+
+  static defaultProps = {
+    history: {
+      goBack: () => { }
+    },
+    match: {
+      params: {}
+    }
+  }
+
   static contextType = ApiContext
 
   clickHandler(){
@@ -80,29 +91,40 @@ export default class AddNote extends Component {
     
       return(
         <FormError>
-          <form onSubmit={this.handleSubmit}>
-            <h2> Add a Note</h2>
-            <div>
-              <label htmlFor="name">Name:</label>
-              <input type="text" name="name" id="name" onChange={e => this.updateNoteName(e.target.value)} />
-              {this.state.touched && (
-                <ValidationError message={newNoteError} />
-              )}
-              <label htmlFor="note-folder">Folder:</label>
-              <select id="note-folder" name="note-folder" onChange={e => this.folderSelector(e.target.value)}>
-                <option value='none'>--Pick A Folder--</option>
-                {folders.map(folder =>
-                  <option value={folder.id}>{folder.name}</option>
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <h2> Add a Note</h2>
+              <div>
+                <label htmlFor="name">Name:</label>
+                <input type="text" name="name" id="name" onChange={e => this.updateNoteName(e.target.value)} />
+                {this.state.touched && (
+                  <ValidationError message={newNoteError} />
                 )}
-              </select>
-              {this.state.folderTouched && (
-                <ValidationError message={folderSelectionError} />
-              )}
-              <label htmlFor='content'>What would you like your note to say?</label>
-              <input type='text' name='content' id='content'onChange={e => this.updateContent(e.target.value)}/>            
-              <button type='submit' disabled={this.validateNewNote() || this.validateFolder()}>Save</button>
-            </div>
-          </form>
+                <label htmlFor="note-folder">Folder:</label>
+                <select id="note-folder" name="note-folder" onChange={e => this.folderSelector(e.target.value)}>
+                  <option value='none'>--Pick A Folder--</option>
+                  {folders.map(folder =>
+                    <option value={folder.id}>{folder.name}</option>
+                  )}
+                </select>
+                {this.state.folderTouched && (
+                  <ValidationError message={folderSelectionError} />
+                )}
+                <label htmlFor='content'>What would you like your note to say?</label>
+                <input type='text' name='content' id='content'onChange={e => this.updateContent(e.target.value)}/>            
+                <button type='submit' disabled={this.validateNewNote() || this.validateFolder()}>Save</button>
+              </div>
+            </form>
+            <Base
+              tag='button'
+              role='link'
+              onClick={() => this.props.history.goBack()}
+              className='NotePageNav__back-button'
+            >
+              <br />
+              Back
+            </Base>
+          </div>          
         </FormError>
         
       ); 
