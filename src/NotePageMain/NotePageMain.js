@@ -1,5 +1,5 @@
 import React from 'react'
-import Note from './note'
+import Note from '../Note/Note'
 import ApiContext from '../ApiContext'
 import { findNote } from '../notes-helpers'
 

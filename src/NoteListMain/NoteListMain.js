@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Note from './note'
-import Base from '../Nav/Base'
+import Note from '../Note/Note'
+import Base from '../Base/Base'
 import ApiContext from '../ApiContext'
 import { getNotesForFolder } from '../notes-helpers'
 

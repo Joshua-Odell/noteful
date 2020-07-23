@@ -1,8 +1,8 @@
 import React from 'react'
 import ApiContext from '../ApiContext'
 import { findNote, findFolder } from '../notes-helpers'
-import AddFolder from '../Folder/add-folder';
-import Base from './Base'
+import AddFolder from '../AddFolder/AddFolder';
+import Base from '../Base/Base'
 
 export default class NotePageNav extends React.Component {
   static defaultProps = {

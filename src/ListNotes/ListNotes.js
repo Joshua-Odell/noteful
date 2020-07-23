@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import AddNote from './add-note';
 import ApiContext from '../ApiContext';
 import { getNotesForFolder } from '../notes-helpers';
-import Note from './note';
-import './note.css';
-import Base from '../Nav/Base'
+import Note from '../Note/Note';
+import '../Note/note.css';
+import Base from '../Base/Base'
 
 export default class ListNotes extends React.Component {
     static defaultProps = {
@@ -22,10 +21,7 @@ export default class ListNotes extends React.Component {
     render() {
         const { folderId } = this.props.match.params
         const { notes=[] } = this.context
-        const { selectedFolder } = this.context
         const notesForFolder = getNotesForFolder(notes, folderId)
-
-        console.log(selectedFolder, "list note render")
             return(
                 <div>
                     <div className='Note-Title'>

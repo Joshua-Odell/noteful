@@ -4,7 +4,7 @@ import ApiContext from '../ApiContext';
 import config from '../config';
 import PropTypes from 'prop-types';
 import FormError from '../Errors/FormError';
-import Base from '../Nav/Base'
+import Base from '../Base/Base'
 
 
 export default class AddNote extends Component {

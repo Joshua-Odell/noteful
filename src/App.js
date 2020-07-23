@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
-import { Route, BrowserRouter, Link } from 'react-router-dom';
-
-import ListNotes from './Note/ListNotes'
+import { Route, Link } from 'react-router-dom';
+import ListNotes from './ListNotes/ListNotes'
 import "./App.css"
-import dummyStore from './dummy-store';
-import NoteListNav from './Nav/NoteListNav';
-import NotePageNav from './Nav/NotePageNav';
+import NoteListNav from './NoteListNav/NoteListNav';
+import NotePageNav from './NotePageNav/NotePageNav';
 import ApiContext from './ApiContext';
-import ListFolders from './Folder/ListFolders';
-import AddFolder from './Folder/add-folder';
-import AddNote from './Note/add-note';
-import NotePageMain from './Note/NotePageMain';
-import NoteListMain from './Note/NoteListMain';
+import AddFolder from './AddFolder/AddFolder';
+import AddNote from './AddNote/AddNote';
+import NotePageMain from './NotePageMain/NotePageMain';
 import config from './config';
 import NoteError from './Errors/NoteError';
 
@@ -27,6 +23,27 @@ export default class App extends Component {
     
     componentDidMount() {
         
+        Promise.all([
+            fetch(`${config.API_ENDPOINT}/notes`),
+            fetch(`${config.API_ENDPOINT}/folders`)
+        ])
+            .then(([notesRes, foldersRes]) => {
+                if (!notesRes.ok)
+                    return notesRes.json().then(e => Promise.reject(e));
+                if (!foldersRes.ok)
+                    return foldersRes.json().then(e => Promise.reject(e));
+
+                return Promise.all([notesRes.json(), foldersRes.json()]);
+            })
+            .then(([notes, folders]) => {
+                this.setState({notes, folders});
+            })
+            .catch(error => {
+                console.error({error});
+            });
+    }
+
+    componentDidUpdate() {
         Promise.all([
             fetch(`${config.API_ENDPOINT}/notes`),
             fetch(`${config.API_ENDPOINT}/folders`)

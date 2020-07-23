@@ -4,7 +4,7 @@ import ValidationError from '../Errors/ValidationError';
 import config from '../config';
 import PropTypes from 'prop-types';
 import FormError from '../Errors/FormError';
-import Base from '../Nav/Base';
+import Base from '../Base/Base';
 
 
 export default class AddFolder extends Component { 
@@ -34,7 +34,6 @@ export default class AddFolder extends Component {
   validateFolderName() {
     const { folders=[] } = this.context
     const newFolderName = this.state.name.trim()
-    console.log(newFolderName)
     if(newFolderName.length < 1 || newFolderName.match(/[0-9]/)){
       return "Enter a valid Folder Name"
     }else if ( folders.includes(newFolderName)){
@@ -60,7 +59,8 @@ export default class AddFolder extends Component {
           return res.json()
         }
       }).then(body => {
-        this.context.addFolder(body)
+        this.context.addFolder(body);
+        document.getElementById('name').val('');
       })
       .catch(error => {
         console.error({ error })

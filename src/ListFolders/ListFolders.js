@@ -1,10 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import AddNote from '../Note/add-note';
 import ApiContext from '../ApiContext';
-import { getNotesForFolder } from '../notes-helpers';
-import Note from '../Note/note';
-import AddFolder from './add-folder';
 
 export default class ListFolders extends React.Component {
     static defaultProps = {
