@@ -77,7 +77,7 @@ export default class AddNote extends Component {
         return res.json()
       }
     }).then(body => {
-      this.context.addFolder(body)
+      this.context.notes.push(body)
     })
     .catch(error => {
       console.error({ error })

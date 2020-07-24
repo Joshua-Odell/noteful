@@ -7,10 +7,15 @@ import './note.css'
 
 
 export default class Note extends React.Component {
-  static defaultProps ={
-    onDeleteNote: () => {},
-  }
+  
   static contextType = ApiContext;
+
+  onDeleteNote(noteId) {
+    console.log(this.context.notes)
+    console.log(noteId)
+    this.context.notes.splice(this.context.notes.findIndex(e => e.id === noteId),1);
+    
+  }
 
   handleClickDelete = e => {
     e.preventDefault()
@@ -28,9 +33,9 @@ export default class Note extends React.Component {
         return res.json()
       })
       .then(() => {
-        this.context.deleteNote(noteId)
+        console.log(noteId)
         // allow parent to perform extra behaviour
-        this.props.onDeleteNote(noteId)
+        this.onDeleteNote(noteId)
       })
       .catch(error => {
         console.error({ error })

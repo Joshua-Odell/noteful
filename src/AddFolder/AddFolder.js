@@ -11,6 +11,7 @@ export default class AddFolder extends Component {
   constructor(props){
     super(props);
     this.state = {
+      folders: [],
       name: '',
       touched: false
     }
@@ -51,20 +52,18 @@ export default class AddFolder extends Component {
       body: JSON.stringify({name: this.state.name })
     })
       .then(res => {
-        console.log({res})
         if (!res.ok) {
           return res.json().then(e => Promise.reject(e))
         } else {
-          // console.log(res.json())
           return res.json()
         }
       }).then(body => {
-        this.context.addFolder(body);
-        document.getElementById('name').val('');
+        this.context.folders.push(body)      
       })
       .catch(error => {
         console.error({ error })
       })
+    
   }
 
   render() {

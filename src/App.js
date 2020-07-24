@@ -42,28 +42,7 @@ export default class App extends Component {
                 console.error({error});
             });
     }
-
-    componentDidUpdate() {
-        Promise.all([
-            fetch(`${config.API_ENDPOINT}/notes`),
-            fetch(`${config.API_ENDPOINT}/folders`)
-        ])
-            .then(([notesRes, foldersRes]) => {
-                if (!notesRes.ok)
-                    return notesRes.json().then(e => Promise.reject(e));
-                if (!foldersRes.ok)
-                    return foldersRes.json().then(e => Promise.reject(e));
-
-                return Promise.all([notesRes.json(), foldersRes.json()]);
-            })
-            .then(([notes, folders]) => {
-                this.setState({notes, folders});
-            })
-            .catch(error => {
-                console.error({error});
-            });
-    }
-
+    
     handleDeleteItem = Id => {
         this.setState({
             notes: this.state.notes.filter(note => note.Id !== Id)
@@ -84,8 +63,8 @@ export default class App extends Component {
             deleteNote: this.handleDeleteNote,
             selectedFolder: this.state.selectedFolder
         };
-        //console.log(value)
-        return( //call={this.settingSelectedFolder()} to go inside NoteListNav. NW maximumum update depth error
+
+        return( 
             <ApiContext.Provider value={value}>
                 <main className="App">                    
                     <header>
