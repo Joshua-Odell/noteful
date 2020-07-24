@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { format } from 'date-fns'
 import ApiContext from '../ApiContext'
 import config from '../config'
 import './note.css'
@@ -10,13 +9,7 @@ export default class Note extends React.Component {
   
   static contextType = ApiContext;
 
-  onDeleteNote(noteId) {
-    console.log(this.context.notes)
-    console.log(noteId)
-    this.context.notes.splice(this.context.notes.findIndex(e => e.id === noteId),1);
-    
-  }
-
+  
   handleClickDelete = e => {
     e.preventDefault()
     const noteId = this.props.id
@@ -33,9 +26,9 @@ export default class Note extends React.Component {
         return res.json()
       })
       .then(() => {
-        console.log(noteId)
-        // allow parent to perform extra behaviour
-        this.onDeleteNote(noteId)
+        let indexCount = this.context.notes.findIndex( e => e.id === noteId)
+        this.context.notes.splice(indexCount,1);
+        window.location.reload();
       })
       .catch(error => {
         console.error({ error })
@@ -43,7 +36,7 @@ export default class Note extends React.Component {
   }
 
   render() {
-    const { name, id, modified } = this.props
+    const { name, id } = this.props
     return (
       <div className='Card'>
         <p className='Card-Title Item'>

@@ -73,11 +73,12 @@ export default class AddNote extends Component {
       if (!res.ok) {
         return res.json().then(e => Promise.reject(e))
       } else {
-        // console.log(res.json())
         return res.json()
       }
     }).then(body => {
       this.context.notes.push(body)
+      this.setState({name: '', content: ''})
+      window.location.reload();
     })
     .catch(error => {
       console.error({ error })
@@ -96,7 +97,7 @@ export default class AddNote extends Component {
               <h2> Add a Note</h2>
               <div>
                 <label htmlFor="name">Name:</label>
-                <input type="text" name="name" id="name" onChange={e => this.updateNoteName(e.target.value)} />
+                <input type="text" name="name" id="name" value={this.state.name} onChange={e => this.updateNoteName(e.target.value)} />
                 {this.state.touched && (
                   <ValidationError message={newNoteError} />
                 )}
@@ -111,8 +112,8 @@ export default class AddNote extends Component {
                   <ValidationError message={folderSelectionError} />
                 )}
                 <label htmlFor='content'>What would you like your note to say?</label>
-                <input type='text' name='content' id='content'onChange={e => this.updateContent(e.target.value)}/>            
-                <button type='submit' disabled={this.validateNewNote() || this.validateFolder()}>Save</button>
+                <input type='text' name='content' value={this.state.content} id='content' onChange={e => this.updateContent(e.target.value)}/>            
+                <button type='submit' onClick={() => this.props.history.goBack()} disabled={this.validateNewNote() || this.validateFolder()}>Save</button>
               </div>
             </form>
             <Base

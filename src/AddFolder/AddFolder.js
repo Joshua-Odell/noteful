@@ -58,7 +58,9 @@ export default class AddFolder extends Component {
           return res.json()
         }
       }).then(body => {
-        this.context.folders.push(body)      
+        this.context.folders.push(body)
+        this.setState({name: ''})
+        window.location.reload();      
       })
       .catch(error => {
         console.error({ error })
@@ -74,9 +76,9 @@ export default class AddFolder extends Component {
               <h2> Add a Folder</h2>
               <div>
                 <label htmlFor="name">Name:</label>
-                <input type="text" name="name" id="name" onChange={e => this.updateFolderName(e.target.value)}/>
+                <input type="text" name="name" id="name" value={this.state.name} onChange={e => this.updateFolderName(e.target.value)}/>
                 {this.state.touched && ( <ValidationError message={this.validateFolderName} />)}
-                <button type='submit' disabled={this.validateFolderName()}>Save</button>
+                <button type='submit' onClick={() => this.props.history.goBack()} disabled={this.validateFolderName()}>Save</button>
               </div>
             </form>
             <Base

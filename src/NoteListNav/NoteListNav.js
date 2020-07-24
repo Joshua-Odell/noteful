@@ -3,7 +3,6 @@ import { NavLink, Link } from 'react-router-dom';
 import ApiContext from '../ApiContext';
 import { countNotesForFolder } from '../notes-helpers';
 import Base from '../Base/Base';
-import AddFolder from '../AddFolder/AddFolder';
 
 
 export default class NoteListNav extends React.Component {
