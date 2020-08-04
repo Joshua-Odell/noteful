@@ -37,6 +37,7 @@ export default class Note extends React.Component {
 
   render() {
     const { name, id } = this.props
+    //console.log(name, id)
     return (
       <div className='Card'>
         <p className='Card-Title Item'>
@@ -48,9 +49,10 @@ export default class Note extends React.Component {
           className='Card-Delete Item'
           type='button'
           onClick={this.handleClickDelete}
+          id={id}
         >
           {' '}
-          remove
+          test
         </button>        
       </div>
     )

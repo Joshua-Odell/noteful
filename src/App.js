@@ -79,7 +79,7 @@ export default class App extends Component {
                                     <NoteListNav /> 
                                 </Route>
                             ))}
-                            <Route path="/note/:noteId" component={NotePageNav} />
+                            <Route path="/note/:noteId" component={NotePageNav} /> 
                             <Route path="/add-folder" component={AddFolder} />
                             <Route path="/add-note" component={AddNote} />
                         </nav>
