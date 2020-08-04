@@ -7,7 +7,6 @@ import NotePageNav from './NotePageNav/NotePageNav';
 import ApiContext from './ApiContext';
 import AddFolder from './AddFolder/AddFolder';
 import AddNote from './AddNote/AddNote';
-import NotePageMain from './NotePageMain/NotePageMain';
 import config from './config';
 import NoteError from './Errors/NoteError';
 
@@ -93,8 +92,7 @@ export default class App extends Component {
                                 path={path}
                                 component={ListNotes}
                             />
-                            ))}      
-                            <Route path={"/note/:noteId"}><NotePageMain/></Route> 
+                            ))}                            
                         </div>
                     </NoteError>                    
                 </main>

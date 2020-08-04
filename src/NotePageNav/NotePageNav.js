@@ -33,7 +33,8 @@ export default class NotePageNav extends React.Component {
       .then(() => {
         let indexCount = this.context.notes.findIndex( e => e.id === noteId)
         this.context.notes.splice(indexCount,1);
-        window.location.reload();
+        this.props.history.goBack()
+        alert(" Note Sucesfully Deleted")
       })
       .catch(error => {
         console.error({ error })
