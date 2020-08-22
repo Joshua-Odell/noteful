@@ -48,6 +48,12 @@ export default class App extends Component {
         });
     };
 
+    handleDeleteNote = (id) => {
+        this.setState((state) => ({
+            notes: this.state.notes.filter((note) => note.id !== id),
+        }));
+    }
+
     settingSelectedFolder(folderId){
         console.log(folderId);
         this.setState({selectedFolder: folderId});
