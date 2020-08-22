@@ -1,3 +1,6 @@
+//File Redundant and unecessary
+
+
 import React from 'react'
 import Note from '../Note/Note'
 import ApiContext from '../ApiContext'
