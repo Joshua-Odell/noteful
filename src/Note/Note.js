@@ -27,6 +27,12 @@ export default class Note extends React.Component {
           return res.json().then(e => Promise.reject(e))
         return res.json()
       })
+      .then(() => {
+        this.context.deleteNote
+        //let indexCount = this.context.notes.findIndex( e => e.id === noteId)
+        //this.context.notes.splice(indexCount,1);
+        //window.location.reload();
+      })
       .catch(error => {
         console.error({ error })
       })
