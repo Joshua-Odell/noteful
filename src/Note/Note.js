@@ -13,22 +13,19 @@ export default class Note extends React.Component {
   handleClickDelete = e => {
     e.preventDefault()
     const noteId = this.props.id
+    console.log(noteId)
 
     fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json'
       },
+      body: JSON.stringify(`${noteId}`)
     })
       .then(res => {
         if (!res.ok)
           return res.json().then(e => Promise.reject(e))
         return res.json()
-      })
-      .then(() => {
-        let indexCount = this.context.notes.findIndex( e => e.id === noteId)
-        this.context.notes.splice(indexCount,1);
-        window.location.reload();
       })
       .catch(error => {
         console.error({ error })
